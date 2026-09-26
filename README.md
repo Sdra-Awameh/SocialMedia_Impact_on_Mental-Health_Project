@@ -1,12 +1,27 @@
 # 🧠 Social Media Impact on Teen Mental Health
 
 ## 💼 Business Problem
+Excessive social media use may be associated with poor sleep, higher stress and anxiety, and lower mental well-being among teenagers. However, it can be difficult to identify which factors are most strongly associated with mental health outcome
 
 ---
 
 ## 🎯 Objectives
 
+Analyze teenagers' social media usage patterns.
 
+ 
+
+•Examine the relationship between social media usage, sleep, stress, and anxiety
+
+ 
+
+•Identify factors associated with depression risk
+
+ 
+
+•Use data analysis/visualization to discover meaningful patterns and insights
+
+ 
 
 ---
 
