@@ -24,7 +24,10 @@ Analyze teenagers' social media usage patterns.
  
 
 ---
+## Prediction Target :
+Predict students' academic performance based on their social media usage, sleep patterns, lifestyle habits, and other factors
 
+---
 ## 📊 Dataset
 
 |                    |                                                                                                              |
