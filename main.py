@@ -1,219 +1,211 @@
 
 import pandas as pd
-import numpy as np
-import seaborn as sns
 import matplotlib.pyplot as plt
+import seaborn as sns
 
-# ==================================================
-# SECTION 1: LOAD THE DATASET
-# ==================================================
+# 1. Load the cleaned dataset
+df = pd.read_csv("Teen_Mental_Health_Dataset_Cleaned.csv")
 
-df = pd.read_csv("Teen_Mental_Health_Dataset.csv")
-
-print("Original dataset shape:", df.shape)
-
-
-# ==================================================
-# SECTION 2: INTRODUCE DATA QUALITY ISSUES
-# ==================================================
-
-np.random.seed(50)
-
-# Select 30 rows to duplicate
-dup_indices = np.random.choice(df.index, size=30, replace=False)
-remaining_indices = list(set(df.index) - set(dup_indices))
-
-# Add 50 missing values to sleep_hours
-null_sleep_indices = np.random.choice(
-    remaining_indices, size=50, replace=False
-)
-remaining_indices = list(set(remaining_indices) - set(null_sleep_indices))
-df.loc[null_sleep_indices, "sleep_hours"] = np.nan
-
-# Add 40 missing values to academic_performance
-null_perf_indices = np.random.choice(
-    remaining_indices, size=40, replace=False
-)
-remaining_indices = list(set(remaining_indices) - set(null_perf_indices))
-df.loc[null_perf_indices, "academic_performance"] = np.nan
-
-# Add 5 age outliers
-outlier_age_indices = np.random.choice(
-    remaining_indices, size=5, replace=False
-)
-remaining_indices = list(set(remaining_indices) - set(outlier_age_indices))
-df.loc[outlier_age_indices, "age"] = 150
-
-# Add 4 social media outliers
-outlier_social_indices = np.random.choice(
-    remaining_indices, size=4, replace=False
-)
-df.loc[outlier_social_indices, "daily_social_media_hours"] = 50
-
-# Append 30 duplicate rows
-duplicates_to_add = df.loc[dup_indices].copy()
-df = pd.concat([df, duplicates_to_add], ignore_index=True)
-
-# Save the dataset containing errors
-df.to_csv("Teen_Mental_Health_Dataset_with_Errors.csv", index=False)
-
-print("\nDataset with errors created.")
+# 2. Check dataset dimensions
 print("Dataset shape:", df.shape)
 
-
-# ==================================================
-# SECTION 3: INSPECT THE DATASET
-# ==================================================
-
-print("\nDataset information:")
-df.info()
-
-print("\nFirst five rows:")
+# 3. Display the first 5 rows
+print("\nFirst 5 rows:")
 print(df.head())
 
-print("\nMissing values:")
+# 4. Display column names and data types
+print("\n" + "=" * 50)
+print("COLUMN NAMES AND DATA TYPES")
+print("=" * 50)
+
+print(df.dtypes)
+
+# 5. Check missing values
+print("\n" + "=" * 50)
+print("MISSING VALUES")
+print("=" * 50)
+
 print(df.isnull().sum())
 
-print("\nDuplicate rows:", df.duplicated().sum())
+# 6. Check duplicate rows
+print("\n" + "=" * 50)
+print("DUPLICATE ROWS")
+print("=" * 50)
 
-print("\nStatistical summary:")
+print("Number of duplicate rows:", df.duplicated().sum())
+
+# 7. Display descriptive statistics
+print("\n" + "=" * 50)
+print("DESCRIPTIVE STATISTICS")
+print("=" * 50)
+
 print(df.describe())
 
+# 8. Target variable distribution
+print("\n" + "=" * 50)
+print("DEPRESSION LABEL DISTRIBUTION")
+print("=" * 50)
 
-# ==================================================
-# SECTION 4: REMOVE DUPLICATES
-# ==================================================
+print(df["depression_label"].value_counts().sort_index())
 
-print("\nDuplicates before removal:", df.duplicated().sum())
-
-df = df.drop_duplicates()
-
-print("Duplicates after removal:", df.duplicated().sum())
-
-
-# ==================================================
-# SECTION 5: HANDLE MISSING VALUES
-# ==================================================
-
-print("\nMissing values before filling:")
-print(df[["sleep_hours", "academic_performance"]].isnull().sum())
-
-# Fill missing sleep hours with the median
-df["sleep_hours"] = df["sleep_hours"].fillna(
-    df["sleep_hours"].median()
-)
-
-# Fill missing academic performance with the median
-df["academic_performance"] = df["academic_performance"].fillna(
-   df["academic_performance"].median()
-)
-
-print("\nMissing values after filling:")
-print(df[["sleep_hours", "academic_performance"]].isnull().sum())
-
-
-# ==================================================
-# SECTION 6: DETECT AND REMOVE AGE OUTLIERS
-# ==================================================
-
-# Box plot before cleaning
-sns.boxplot(x=df["age"])
-plt.title("Age Before Outlier Removal")
-plt.show()
-
-# Calculate Q1, Q3, and IQR
-q1 = df["age"].quantile(0.25)
-q3 = df["age"].quantile(0.75)
-iqr = q3 - q1
-
-# Calculate lower and upper limits
-lower_limit = q1 - (1.5 * iqr)
-upper_limit = q3 + (1.5 * iqr)
-
-print("\nRows before age cleaning:", len(df))
-
-# Remove age outliers
-df = df.loc[
-    (df["age"] >= lower_limit) &
-    (df["age"] <= upper_limit)
-].copy()
-
-print("Rows after age cleaning:", len(df))
-
-# Box plot after cleaning
-sns.boxplot(x=df["age"])
-plt.title("Age After Outlier Removal")
-plt.show()
-
-
-# ==================================================
-# SECTION 7: DETECT AND REMOVE SOCIAL MEDIA OUTLIERS
-# ==================================================
-
-# Box plot before cleaning
-sns.boxplot(x=df["daily_social_media_hours"])
-plt.title("Social Media Hours Before Outlier Removal")
-plt.show()
-
-# Calculate Q1, Q3, and IQR
-q1 = df["daily_social_media_hours"].quantile(0.25)
-q3 = df["daily_social_media_hours"].quantile(0.75)
-iqr = q3 - q1
-
-# Calculate lower and upper limits
-lower_limit = q1 - (1.5 * iqr)
-upper_limit = q3 + (1.5 * iqr)
-
-print("\nRows before social media cleaning:", len(df))
-
-# Remove social media outliers
-df = df.loc[
-    (df["daily_social_media_hours"] >= lower_limit) &
-    (df["daily_social_media_hours"] <= upper_limit)
-].copy()
-
-print("Rows after social media cleaning:", len(df))
-
-# Box plot after cleaning
-sns.boxplot(x=df["daily_social_media_hours"])
-plt.title("Social Media Hours After Outlier Removal")
-plt.show()
-
-
-# ==================================================
-# SECTION 8: VALIDATE THE CLEANED DATASET
-# ==================================================
-
-print("\n========== FINAL DATA QUALITY CHECK ==========")
-
-print("\nMissing values per column:")
-print(df.isnull().sum())
-
-print("\nTotal missing values:", df.isnull().sum().sum())
-
-print("\nDuplicate rows remaining:", df.duplicated().sum())
-
-print("\nAge range:")
-print(df["age"].min(), "to", df["age"].max())
-
-print("\nSocial media hours range:")
+print("\nPercentages:")
 print(
-    df["daily_social_media_hours"].min(),
-    "to",
-    df["daily_social_media_hours"].max()
+    (df["depression_label"].value_counts(normalize=True)
+     .sort_index() * 100).round(2)
 )
 
-print("\nFinal dataset shape:", df.shape)
+# Plot the target distribution
+sns.countplot(data=df, x="depression_label")
 
-print("\nFinal statistical summary:")
-print(df.describe())
+plt.title("Distribution of Depression Label")
+plt.xlabel("Depression Label")
+plt.ylabel("Number of Students")
+plt.tight_layout()
+plt.show()
 
 
-# ==================================================
-# SECTION 9: SAVE THE CLEANED DATASET
-# ==================================================
+# 9. Distribution of daily social media usage
 
-df.to_csv("Teen_Mental_Health_Dataset_Cleaned.csv", index=False)
+plt.figure(figsize=(8, 5))
 
-print("\nCleaned dataset saved successfully!")
-print("File: Teen_Mental_Health_Dataset_Cleaned.csv")
+sns.histplot(
+    data=df,
+    x="daily_social_media_hours",
+    bins=10,
+    kde=True
+)
+
+plt.title("Distribution of Daily Social Media Usage")
+plt.xlabel("Daily Social Media Hours")
+plt.ylabel("Number of Students")
+plt.tight_layout()
+plt.show()
+
+
+# 10. Correlation analysis
+
+numeric_df = df.select_dtypes(include="number")
+
+correlation_matrix = numeric_df.corr()
+
+plt.figure(figsize=(12, 8))
+
+sns.heatmap(
+    correlation_matrix,
+    annot=True,
+    cmap="coolwarm",
+    fmt=".2f",
+    vmin=-1,
+    vmax=1
+)
+
+plt.title("Correlation Heatmap")
+plt.tight_layout()
+plt.show()
+
+
+# 11. Categorical feature distributions
+
+categorical_columns = [
+    "gender",
+    "platform_usage",
+    "social_interaction_level"
+]
+
+for column in categorical_columns:
+    print(f"\nDistribution of {column}:")
+    print(df[column].value_counts())
+
+    plt.figure(figsize=(7, 4))
+
+    sns.countplot(
+        data=df,
+        x=column,
+        order=df[column].value_counts().index
+    )
+
+    plt.title(f"Distribution of {column}")
+    plt.xlabel(column.replace("_", " ").title())
+    plt.ylabel("Number of Students")
+    plt.xticks(rotation=15)
+    plt.tight_layout()
+    plt.show()
+
+
+# 12. Compare numerical features by depression label
+
+features_to_compare = [
+    "daily_social_media_hours",
+    "sleep_hours",
+    "stress_level",
+    "anxiety_level"
+]
+
+for column in features_to_compare:
+    plt.figure(figsize=(7, 4))
+
+    sns.boxplot(
+        data=df,
+        x="depression_label",
+        y=column
+    )
+
+    plt.title(f"{column.replace('_', ' ').title()} by Depression Label")
+    plt.xlabel("Depression Label")
+    plt.ylabel(column.replace("_", " ").title())
+    plt.tight_layout()
+    plt.show()
+
+
+# Correlation with depression_label
+print("\n" + "=" * 50)
+print("CORRELATION WITH DEPRESSION LABEL")
+print("=" * 50)
+
+numeric_df = df.select_dtypes(include="number")
+correlation_with_target = numeric_df.corr()["depression_label"].drop("depression_label")
+correlation_with_target = correlation_with_target.sort_values(
+    key=abs, ascending=False
+)
+
+print(correlation_with_target.round(3))
+
+
+print("\n" + "=" * 50)
+print("COMPARISON BY DEPRESSION LABEL")
+print("=" * 50)
+
+features_to_compare = [
+    "sleep_hours",
+    "daily_social_media_hours",
+    "stress_level",
+    "anxiety_level",
+    "physical_activity",
+    "academic_performance"
+]
+
+print(
+    df.groupby("depression_label")[features_to_compare]
+    .mean()
+    .round(2)
+)
+
+
+print("\n" + "=" * 50)
+print("VALUE RANGE CHECK")
+print("=" * 50)
+
+columns_to_check = [
+    "age",
+    "daily_social_media_hours",
+    "sleep_hours",
+    "screen_time_before_sleep",
+    "academic_performance",
+    "physical_activity",
+    "stress_level",
+    "anxiety_level",
+    "addiction_level",
+    "depression_label"
+]
+
+print(df[columns_to_check].agg(["min", "max"]).T)
