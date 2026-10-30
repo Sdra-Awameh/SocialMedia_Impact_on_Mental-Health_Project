@@ -7,7 +7,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.x-blue?logo=python" alt="Python">
   <img src="https://img.shields.io/badge/Scikit--learn-Machine%20Learning-orange?logo=scikitlearn" alt="Scikit-learn">
-  <img src="https://img.shields.io/badge/Status-Completed-success" alt="Project Status">
+
   <img src="https://img.shields.io/badge/Project-Educational-purple" alt="Educational Project">
 </p>
 
