@@ -4,12 +4,13 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from pathlib import Path
 
 # --------------------------------------------------
 # 1. Load the dataset
 # --------------------------------------------------
-# Keep this CSV in the same folder as main.py.
-DATASET_PATH = "Teen_Mental_Health_Dataset.csv"
+PROJECT_ROOT = Path(__file__).resolve().parent
+DATASET_PATH = PROJECT_ROOT / "data" / "raw" / "Teen_Mental_Health_Dataset.csv"
 df = pd.read_csv(DATASET_PATH)
 
 print("=" * 60)

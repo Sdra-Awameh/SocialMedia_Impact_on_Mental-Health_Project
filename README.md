@@ -17,7 +17,7 @@ This project analyzes teenagers' social media habits, sleep patterns, and other 
 
 ## 🔮 Prediction Target
 
-**Target Variable:** Depression
+**Target Variable:** Depression-risk
 
 The goal is to investigate whether depression status can be predicted using available features such as social media usage, sleep patterns, lifestyle habits, and other relevant factors in the dataset.
 
@@ -27,8 +27,8 @@ The feasibility of prediction depends on the available target variable, feature 
 
 | Attribute | Description |
 |---|---|
-| **Dataset Name** | Teen Mental Health Dataset — Social Media Impact on Mental Health |
-| **Source** | [Kaggle — Social Media Impact on Mental Health](https://www.kaggle.com/datasets/sunil123kumar/social-media-impact-on-mental-health) |
+| **Dataset Name** | Teen Mental Health Dataset — Teen_Mental_Health_Dataset |
+| **Source** | [Kaggle — Teen_Mental_Health_Dataset](https://www.kaggle.com/datasets/sunil123kumar/social-media-impact-on-mental-health) |
 | **Size** | 1,200 rows × 13 columns (original dataset) |
 | **Age Range** | 13–19 years |
 | **Missing Values** | Reported as none in the original dataset |
@@ -44,3 +44,29 @@ The project includes the following data quality checks and preprocessing steps:
 - Detect potential outliers in selected numerical columns.
 - Validate the cleaned dataset.
 - Save the processed dataset for further analysis.
+
+## 📁 Project Structure
+
+```text
+SocialMedia_Impact_on_Teen_Mental_Health/
+├── data/
+│   ├── raw/
+│   │   └── Teen_Mental_Health_Dataset.csv
+│   └── processed/
+│       ├── Teen_Mental_Health_Dataset_Cleaned.csv
+│       └── Teen_Mental_Health_Dataset_with_Errors.csv
+├── notebooks/
+│   └── EDA.ipynb
+├── main.py
+└── README.md
+```
+
+## ▶️ Running the Analysis
+
+Run the analysis script from the project root:
+
+```bash
+python main.py
+```
+
+Open `notebooks/EDA.ipynb` to explore the dataset interactively.
