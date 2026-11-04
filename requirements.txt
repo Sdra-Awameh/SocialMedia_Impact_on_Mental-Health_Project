@@ -1,0 +1,8 @@
+streamlit
+pandas==2.3.3
+numpy
+joblib
+scikit-learn==1.9.1
+imbalanced-learn==0.14.2
+plotly
+streamlit-lottie
