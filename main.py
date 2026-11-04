@@ -29,7 +29,6 @@
 # 0. INSTALL LIBRARIES
 # ============================================================
 
-# Run in Google Colab if needed:
 # !pip install -q pandas numpy matplotlib seaborn scikit-learn imbalanced-learn joblib
 
 
