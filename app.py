@@ -1,5 +1,6 @@
 import base64
 import json
+import time
 
 import joblib
 import pandas as pd
@@ -255,6 +256,7 @@ def load_animation(path):
 
 model = load_model()
 robot_animation = load_animation("assets/Anima Bot.json")
+brain_animation = load_animation("assets/Brain.json")
 
 # Readable names for the model's input columns (also used to group the
 # one-hot encoded columns back to their original feature).
@@ -507,7 +509,22 @@ with result_col:
         st.markdown('<div class="panel-title">Prediction</div>', unsafe_allow_html=True)
 
         if predict_clicked:
-            run_prediction()
+            loading_started = time.monotonic()
+            loading_placeholder = st.empty()
+            try:
+                with st.spinner("Analyzing your answers..."):
+                    with loading_placeholder.container():
+                        if brain_animation is not None:
+                            render_lottie(brain_animation, 180)
+                        st.markdown(
+                            '<div class="panel-hint" style="text-align:center;">'
+                            "Analyzing the profile...</div>",
+                            unsafe_allow_html=True,
+                        )
+                    run_prediction()
+                    time.sleep(max(0, 1.2 - (time.monotonic() - loading_started)))
+            finally:
+                loading_placeholder.empty()
             scroll_to_result()
 
         result = st.session_state.get("result")
