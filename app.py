@@ -321,11 +321,7 @@ def render_lottie(animation, size=220):
 
 
 def embed_html(html, height):
-    if hasattr(st, "iframe"):
-        # Newer Streamlit: components.html is deprecated in favour of st.iframe
-        st.iframe(html, height=height)
-    else:
-        components.html(html, height=height, scrolling=False)
+    components.html(html, height=height, scrolling=False)
 
 
 def scroll_to_result():
@@ -509,6 +505,7 @@ with result_col:
         st.markdown('<div class="panel-title">Prediction</div>', unsafe_allow_html=True)
 
         if predict_clicked:
+            scroll_to_result()
             loading_started = time.monotonic()
             loading_placeholder = st.empty()
             try:
@@ -522,10 +519,9 @@ with result_col:
                             unsafe_allow_html=True,
                         )
                     run_prediction()
-                    time.sleep(max(0, 1.2 - (time.monotonic() - loading_started)))
+                    time.sleep(max(0, 2.0 - (time.monotonic() - loading_started)))
             finally:
                 loading_placeholder.empty()
-            scroll_to_result()
 
         result = st.session_state.get("result")
 
