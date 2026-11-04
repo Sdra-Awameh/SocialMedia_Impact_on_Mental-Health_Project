@@ -93,8 +93,7 @@ os.makedirs("figures", exist_ok=True)
 # Make sure the CSV is uploaded to Google Colab
 # or available in the current working directory.
 
-df = pd.read_csv("Teen_Mental_Health_Dataset.csv")
-
+df = pd.read_csv("data/raw/Teen_Mental_Health_Dataset.csv")
 print("Dataset Shape:", df.shape)
 
 print("\nFirst Five Records:")
@@ -182,9 +181,9 @@ sns.countplot(
     hue="depression_risk",
     hue_order=["low", "medium", "high"],
     palette={
-        "low": "#2ecc71",
-        "medium": "#f1c40f",
-        "high": "#e74c3c"
+        "low": "#2e65cc",
+        "medium": "#0f9ef1",
+        "high": "#132c9c"
     },
     legend=False
 )
