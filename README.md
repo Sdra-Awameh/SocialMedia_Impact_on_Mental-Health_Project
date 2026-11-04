@@ -1,14 +1,8 @@
 # Social Media Impact on Teen Mental Health
 
-<p align="center">
-  **A Machine Learning Approach to Predicting Depression Risk Among Teenagers**
-</p>
-
-<p align="center">
-  ![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)
-  ![Scikit-learn](https://img.shields.io/badge/Scikit--learn-Machine%20Learning-orange?logo=scikitlearn)
-  ![Project](https://img.shields.io/badge/Project-Educational-purple)
-</p>
+![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)
+![Scikit-learn](https://img.shields.io/badge/Scikit--learn-Machine%20Learning-orange?logo=scikitlearn)
+![Project](https://img.shields.io/badge/Project-Educational-purple)
 
 ## Overview
 
