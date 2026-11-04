@@ -273,11 +273,7 @@ Although the results demonstrate the potential of Machine Learning for analyzing
 
 ---
 
-## Author
 
-**Sdra Awameh**
-
-Software Engineering Student
 
 ---
 
